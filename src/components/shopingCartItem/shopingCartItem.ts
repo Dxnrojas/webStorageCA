@@ -7,7 +7,11 @@ class ShoppingCart extends HTMLElement {
         this.render();
     };
     render(){
-        if(this.shadowRoot) this.shadowRoot.innerHTML = '';
+        if(this.shadowRoot)
+            {this.shadowRoot.innerHTML = ''
+
+            };
     };
 };
 customElements.define('shopping-cart', ShoppingCart);
+export default ShoppingCart;
