@@ -1,0 +1,26 @@
+import { Product } from '../types/products';
+
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const SET_PRODUCTS = 'SET_PRODUCTS';
+export const DELETE_CART = 'DELETE_CART';
+export const DELETE_CART_PRODUCT = 'DELETE_CART_PRODUCT';   
+
+export const addToCart = (product: Product) => ({
+  type: ADD_TO_CART,
+  payload: product,
+});
+
+export const setProducts = (products: Product[]) => ({
+  type: SET_PRODUCTS,
+  payload: products,
+});
+
+export const deleteCart = () => ({
+  type: DELETE_CART,
+  payload: [],
+});
+
+export const deleteCartProduct = (id: number) => ({
+    type: DELETE_CART_PRODUCT,
+    payload: id,
+  });
