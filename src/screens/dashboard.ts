@@ -9,9 +9,9 @@ import { setLocalStorage, getLocalStorage } from '../utils/storage';
 
 class Dashboard extends HTMLElement {
     products: ProductCard[] = [];
-    cartProducts: ProductCard[] = [];
+    cartProducts: HTMLElement[] = []; // Cambiado a HTMLElement para permitir divs
 
-    constructor()  {
+    constructor() {
         super();
         this.attachShadow({ mode: 'open' });
     }
@@ -31,7 +31,7 @@ class Dashboard extends HTMLElement {
             productCard.setAttribute(ProductCardAttribute.price, String(product.price));
             productCard.setAttribute(ProductCardAttribute.rating, String(product.rating.rate));
 
-            productCard.addEventListener('add-to-cart', () => {
+            productCard.querySelector('button')?.addEventListener('click', () => {
                 dispatch(addToCart(product));
                 this.updateCart();
             });
@@ -44,22 +44,18 @@ class Dashboard extends HTMLElement {
 
     getCartProducts() {
         const data = appState.cart;
-        this.cartProducts = [];
+        this.cartProducts = []; // Reiniciamos el array para evitar duplicados
 
         data.forEach((product: any) => {
-            const cartProduct = document.createElement('product-card') as ProductCard;
-            cartProduct.setAttribute(ProductCardAttribute.uid, String(product.id));
-            cartProduct.setAttribute(ProductCardAttribute.ptitle, product.ptitle);
-            cartProduct.setAttribute(ProductCardAttribute.image, product.image);
-            cartProduct.setAttribute(ProductCardAttribute.description, product.description);
-            cartProduct.setAttribute(ProductCardAttribute.price, String(product.price));
-
-            cartProduct.addEventListener('delete-product', () => {
-                dispatch(deleteCartProduct(product.id));
-                this.updateCart();
-            });
-
-            this.cartProducts.push(cartProduct);
+            const cartProduct = document.createElement('div');
+            cartProduct.innerHTML = `
+                <div style="border: 1px solid #ddd; padding: 10px; margin: 10px;">
+                    <h3>${product.title}</h3>
+                    <img src="${product.image}" alt="Product image" style="max-width: 50px;"/>
+                    <p>Price: ${product.price}</p>
+                </div>
+            `;
+            this.cartProducts.push(cartProduct); // Ahora almacena divs
         });
     }
 
@@ -78,9 +74,9 @@ class Dashboard extends HTMLElement {
     updateCart() {
         this.getCartProducts();
 
-        const cartContainer = this.shadowRoot?.querySelector('.cart-container');
+        const cartContainer = this.shadowRoot?.querySelector('.cart-items');
         if (cartContainer) {
-            cartContainer.innerHTML = '<h1>CART</h1>';
+            cartContainer.innerHTML = ''; // Limpiar contenido anterior del carrito
             this.cartProducts.forEach((product) => {
                 cartContainer?.appendChild(product);
             });
@@ -93,6 +89,7 @@ class Dashboard extends HTMLElement {
                 <main class="products-container"></main>
                 <aside class="cart-container">
                     <h1>CART</h1>
+                    <div class="cart-items"></div>
                     <button class="clear-cart">Clear Cart</button>
                 </aside>
             </section>
@@ -110,7 +107,7 @@ class Dashboard extends HTMLElement {
     renderProducts() {
         const productsContainer = this.shadowRoot?.querySelector('.products-container');
         if (productsContainer) {
-            productsContainer.innerHTML = '';
+            productsContainer.innerHTML = ''; 
             this.products.forEach((product) => {
                 productsContainer.appendChild(product);
             });

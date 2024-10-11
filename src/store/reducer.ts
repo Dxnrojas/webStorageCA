@@ -13,18 +13,19 @@ const initialState: AppState = {
 export interface Action {
     type: string;
     payload: any;
+}
+
+export const reducer = (currentAction: any , currentState: any) => {
+  switch (currentAction.type) {
+    case SET_PRODUCTS:
+      return { ...currentState, products: currentAction.payload };
+    case ADD_TO_CART:
+      return { ...currentState, cart: [...currentState.cart, currentAction.payload] };
+    case DELETE_CART:
+        return { ...currentState, cart: [] };
+    case DELETE_CART_PRODUCT:
+        return { ...currentState, cart: currentState.cart.filter((product: any) => product.uid !== currentAction.payload) };
+    default:
+      return currentState;
   }
-
-  export const reducer = (currentAction: any , currentState: any) => {
-    switch (currentAction.type) {
-      case SET_PRODUCTS:
-        return { ...currentState, products: currentAction.payload };
-      case ADD_TO_CART:
-        return { ...currentState, cart: [...currentState.cart, currentAction.payload] };
-      default:
-        return currentState;
-    }
-  };
-  
-
-
+};
