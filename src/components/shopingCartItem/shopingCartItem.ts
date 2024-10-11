@@ -1,3 +1,14 @@
+export interface Product {
+    uid: number;
+    title: string;
+    price: number;
+    description: string;
+    category: string;
+    image: string;
+    rating: { rate: number; count: number };
+  }
+
+
 class ShoppingCart extends HTMLElement {
     constructor(){
         super();

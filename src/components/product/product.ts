@@ -1,4 +1,5 @@
 export enum Attribute {
+  "uid" = "uid",
   "button" = "button",
   "image" = "image",
   "description" = "description",
@@ -8,6 +9,7 @@ export enum Attribute {
 }
 
 class Product extends HTMLElement {
+  uid?: number;
   button?: string;
   image?: string;
   description?: string;
@@ -28,18 +30,25 @@ class Product extends HTMLElement {
     this.render();
   }
 
-  attributeChangedCallback(
-    propName: Attribute,
-    oldValue: string | undefined,
-    newValue: string | undefined
-  ) {
-    if (propName === Attribute.price || propName === Attribute.rating) {
-      this[propName] = newValue ? Number(newValue) : undefined;
-    } else {
-      this[propName] = newValue;
+  attributeChangedCallback(propName: Attribute, oldValue: string | undefined, newValue: string | undefined) {
+    switch (propName){
+        case Attribute.price:
+            this[propName] = Number(newValue);
+            break;
+
+        case Attribute.rating:
+            this[propName] = Number(newValue);
+            break;
+        
+        case Attribute.uid:
+            this[propName] = Number(newValue);
+            break;
+
+        default:
+            this[propName] = newValue;
+            break;
     }
-    this.render();
-  }
+}
 
   render() {
     if (this.shadowRoot){

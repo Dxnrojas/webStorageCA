@@ -20,6 +20,7 @@ const persistStore = (state: any) => {
     setLocalStorage(state, 'STORE');
 };
 
+//Crear dispatch
 export const dispatch = (action: any) => {
     const clone = JSON.parse(JSON.stringify(appState));
     const newState = reducer(action, clone);

@@ -20,7 +20,7 @@ export const reducer = (state = initialState, action: Action) => {
     case DELETE_CART:
         return { ...state, cart: [] };
     case DELETE_CART_PRODUCT:
-        return { ...state, cart: state.cart.filter((product) => product.id !== action.payload) };
+        return { ...state, cart: state.cart.filter((product) => product.uid !== action.payload) };
     default:
       return state;
   }
