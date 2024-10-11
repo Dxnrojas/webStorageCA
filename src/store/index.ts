@@ -1,6 +1,6 @@
 import { reducer } from "./reducer";
 import { AppState, Observer } from "../types/store";
-import {setLocalStorage, getLocalStorage} from '../utils/storage';
+import Storage from '../utils/storage'; 
 
 //Crear el global state como un objeto
 export let initialState = {
@@ -12,13 +12,13 @@ export let initialState = {
     uid: 1106514264,
 }
 
-export let appState = getLocalStorage('STORE') || initialState;
+export let appState = Storage.get('STORE', initialState) 
 
 let observers: Observer[] = [];
 
 const persistStore = (state: any) => {
-    setLocalStorage(state, 'STORE');
-};
+    Storage.set('STORE', state);
+}
 
 //Crear dispatch
 export const dispatch = (action: any) => {

@@ -2,14 +2,13 @@ import { apiProducts } from "../services/getProducts";
 import ProductCard, { Attribute as ProductCardAttribute } from "../components/product/product";
 import '../components/product/product';
 
-import { addToCart, getProductsRedux, deleteCart, deleteCartProduct } from '../store/actions';
-import { addObserver, appState, dispatch } from '../store/index';
-
-import { setLocalStorage, getLocalStorage } from '../utils/storage';
+import { addToCart, getProductsRedux, deleteCart } from '../store/actions';
+import { appState, dispatch } from '../store/index';
+import storage from '../utils/storage';
 
 class Dashboard extends HTMLElement {
     products: ProductCard[] = [];
-    cartProducts: HTMLElement[] = []; // Cambiado a HTMLElement para permitir divs
+    cartProducts: HTMLElement[] = [];
 
     constructor() {
         super();
@@ -31,9 +30,22 @@ class Dashboard extends HTMLElement {
             productCard.setAttribute(ProductCardAttribute.price, String(product.price));
             productCard.setAttribute(ProductCardAttribute.rating, String(product.rating.rate));
 
-            productCard.querySelector('button')?.addEventListener('click', () => {
-                dispatch(addToCart(product));
+            // Manejar el evento de clic en el botón de la tarjeta de producto
+            productCard.addEventListener('add-to-cart', (event: Event) => {
+                const customEvent = event as CustomEvent;
+                const productDetails = customEvent.detail;
+                dispatch(addToCart(productDetails));
                 this.updateCart();
+
+                // Guardar en localStorage
+                const cartItems = storage.get('CART_ITEMS', []);
+                const existingProductIndex = cartItems.findIndex((item: any) => item.uid === productDetails.uid);
+                if (existingProductIndex === -1) {
+                    cartItems.push(productDetails);
+                    storage.set('CART_ITEMS', cartItems);
+                } else {
+                    console.log('El producto ya está en el carrito.');
+                }
             });
 
             this.products.push(productCard);
@@ -44,18 +56,18 @@ class Dashboard extends HTMLElement {
 
     getCartProducts() {
         const data = appState.cart;
-        this.cartProducts = []; // Reiniciamos el array para evitar duplicados
+        this.cartProducts = [];
 
         data.forEach((product: any) => {
             const cartProduct = document.createElement('div');
             cartProduct.innerHTML = `
                 <div style="border: 1px solid #ddd; padding: 10px; margin: 10px;">
-                    <h3>${product.title}</h3>
+                    <h3>${product.ptitle}</h3>
                     <img src="${product.image}" alt="Product image" style="max-width: 50px;"/>
                     <p>Price: ${product.price}</p>
                 </div>
             `;
-            this.cartProducts.push(cartProduct); // Ahora almacena divs
+            this.cartProducts.push(cartProduct);
         });
     }
 
@@ -76,7 +88,7 @@ class Dashboard extends HTMLElement {
 
         const cartContainer = this.shadowRoot?.querySelector('.cart-items');
         if (cartContainer) {
-            cartContainer.innerHTML = ''; // Limpiar contenido anterior del carrito
+            cartContainer.innerHTML = '';
             this.cartProducts.forEach((product) => {
                 cartContainer?.appendChild(product);
             });
