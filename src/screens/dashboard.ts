@@ -71,13 +71,12 @@ class Dashboard extends HTMLElement {
    
     async connectedCallback() {
         this.render();
-
-     
-        // if (appState.products.length === 0) {
-        //     const action = await getProductsRedux();
-        //     dispatch(action);
-        // }
-
+    
+        if (appState.products.length === 0) {
+            const action = await getProductsRedux();
+            dispatch(action);
+        }
+    
         this.getProducts(); 
         this.updateCart();  
     }

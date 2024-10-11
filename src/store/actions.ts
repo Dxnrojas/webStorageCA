@@ -26,10 +26,10 @@ export const deleteCartProduct = (id: number) => ({
     payload: id,
   });
 
-export const getProductsRedux = async () => {
+  export const getProductsRedux = async () => {
     const products = await apiProducts();
     return {
-        action: 'SET_PRODUCTS',
+        type: 'SET_PRODUCTS',
         payload: products,
     };
 };

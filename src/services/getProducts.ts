@@ -6,5 +6,5 @@ export const apiProducts = async () => {
     } catch (error) {
         console.error('error', error);
         return [];
-    };
+    }
 };

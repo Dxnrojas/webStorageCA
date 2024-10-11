@@ -48,23 +48,21 @@ class Product extends HTMLElement {
             this[propName] = newValue;
             break;
     }
-}
+  }
 
   render() {
-    if (this.shadowRoot){
-        this.shadowRoot.innerHTML = `
-            <div>
-                <h2>${this.description}</h2>
-                <img src="${this.image} />
-                <p>Category: ${this.category}</p>
-                <p>Price: ${this.price}</p>
-                <p>Rating: ${this.rating}</p>
-                <button>Add to cart${this.button}</button>
-            </div>
-        `;
-    };
-
-    
+    if (this.shadowRoot) {
+      this.shadowRoot.innerHTML = `
+        <div>
+            <h2>${this.description ? this.description : 'No description available'}</h2>
+            <img src="${this.image}" alt="Product image"/>
+            <p>Category: ${this.category ? this.category : 'Unknown'}</p>
+            <p>Price: ${this.price ? '$' + this.price : 'N/A'}</p>
+            <p>Rating: ${this.rating ? this.rating + ' stars' : 'Not rated yet'}</p>
+            <button>${this.button ? this.button : 'Add to cart'}</button>
+        </div>
+      `;
+    }
   }
 }
 
