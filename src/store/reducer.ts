@@ -15,18 +15,18 @@ export interface Action {
     payload: any;
   }
 
-export const reducer = (state = initialState, action: Action) => {
-  switch (action.type) {
+export const reducer = (currentAction: any , currentState: any) => {
+  switch (currentAction.type) {
     case SET_PRODUCTS:
-      return { ...state, products: action.payload };
+      return { ...currentState, products: currentAction.payload };
     case ADD_TO_CART:
-      return { ...state, cart: [...state.cart, action.payload] };
+      return { ...currentState, cart: [...currentState.cart, currentAction.payload] };
     case DELETE_CART:
-        return { ...state, cart: [] };
+        return { ...currentState, cart: [] };
     case DELETE_CART_PRODUCT:
-        return { ...state, cart: state.cart.filter((product) => product.uid !== action.payload) };
+        return { ...currentState, cart: currentState.cart.filter((product: any) => product.uid !== currentAction.payload) };
     default:
-      return state;
+      return currentState;
   }
 };
 
