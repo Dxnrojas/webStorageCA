@@ -74,11 +74,11 @@ class Dashboard extends HTMLElement {
         console.log('Dashboard connected'); 
         
 
-        // Si no hay productos en el estado, hacer el dispatch para obtenerlos
-        // if (appState.products.length === 0) {
-        //     const action = await this.getProducts();
-        //     dispatch(action);
-        // }
+       
+        if (appState.products.length === 0) {
+            const action = await this.getProducts();
+            dispatch(action);
+        }
 
         this.getProducts(); // Llamamos a la función para renderizar los productos
         this.updateCart();  // Actualizamos el carrito
@@ -88,13 +88,13 @@ class Dashboard extends HTMLElement {
     updateCart() {
         this.getCartProducts(); // Obtén los productos actualizados en el carrito
 
-        const cartContainer = this.shadowRoot?.querySelector('.cart-container');
-        if (cartContainer) {
-            cartContainer.innerHTML = '<h1>CART</h1>'; // Reinicia el HTML para evitar duplicación
-            this.cartProducts.forEach((product) => {
-                cartContainer?.appendChild(product);
-            });
-        }
+        // const cartContainer = this.shadowRoot?.querySelector('.cart-container');
+        // if (cartContainer) {
+        //     cartContainer.innerHTML = '<h1>CART</h1>'; // Reinicia el HTML para evitar duplicación
+        //     this.cartProducts.forEach((product) => {
+        //         cartContainer?.appendChild(product);
+        //     });
+        // }
     }
 
     // Renderizado principal de la pantalla
