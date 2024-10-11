@@ -11,11 +11,6 @@ export const addToCart = (product: Product) => ({
   payload: product,
 });
 
-// export const setProducts = (products: Product[]) => ({
-//   type: SET_PRODUCTS,
-//   payload: products,
-// });
-
 export const deleteCart = () => ({
   type: DELETE_CART,
   payload: [],
@@ -24,12 +19,12 @@ export const deleteCart = () => ({
 export const deleteCartProduct = (id: number) => ({
     type: DELETE_CART_PRODUCT,
     payload: id,
-  });
+});
 
-  export const getProductsRedux = async () => {
+export const getProductsRedux = async () => {
     const products = await apiProducts();
     return {
-        type: 'SET_PRODUCTS',
+        type: SET_PRODUCTS,
         payload: products,
     };
 };
