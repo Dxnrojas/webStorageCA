@@ -4,7 +4,7 @@ import {setLocalStorage, getLocalStorage} from '../utils/storage';
 
 //Crear el global state como un objeto
 export let initialState = {
-    screen: 'Dashboard',
+    screen: 'DASHBOARD',
     cart: [],
     products: [],
     state: 'adding-to-cart',

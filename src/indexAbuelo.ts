@@ -11,6 +11,7 @@ class AppContainer extends HTMLElement {
 
     connectedCallback() {
         this.render();
+        console.log(appState);
     }
 
     render() {
@@ -20,6 +21,12 @@ class AppContainer extends HTMLElement {
                 const dashboard = this.ownerDocument.createElement('dashboard-component');
                 this.shadowRoot?.appendChild(dashboard);
                 break;
+            default:
+                if(this.shadowRoot){
+                    this.shadowRoot.innerHTML = `<h1>404</h1>`;
+                }
+                break;
+                
         }
     }
 }
