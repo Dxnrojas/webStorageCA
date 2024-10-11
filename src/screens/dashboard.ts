@@ -71,12 +71,14 @@ class Dashboard extends HTMLElement {
     // Llamada inicial cuando el componente se conecta al DOM
     async connectedCallback() {
         this.render();
+        console.log('Dashboard connected'); 
+        
 
         // Si no hay productos en el estado, hacer el dispatch para obtenerlos
-        if (appState.products.length === 0) {
-            const action = await this.getProducts();
-            dispatch(action);
-        }
+        // if (appState.products.length === 0) {
+        //     const action = await this.getProducts();
+        //     dispatch(action);
+        // }
 
         this.getProducts(); // Llamamos a la función para renderizar los productos
         this.updateCart();  // Actualizamos el carrito
